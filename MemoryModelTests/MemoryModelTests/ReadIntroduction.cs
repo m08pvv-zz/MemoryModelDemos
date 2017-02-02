@@ -24,7 +24,7 @@ namespace MemoryModelTests
         [Test]
         public void ReadIntroductionTest()
         {
-            for (var i = 0; i < 1 << 21; i++)
+            for (var i = 0; i < 1 << 11; i++)
             {
                 someObject = new object();
 

@@ -3,13 +3,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <Button
-        android:id="@+id/MyButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/Hello" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="316.0dp"
-        android:id="@+id/outputEditText" />
+        android:id="@+id/outputEditText"
+        android:editable="false" />
 </LinearLayout>

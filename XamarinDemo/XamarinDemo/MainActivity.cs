@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.OS;
+using Android.Util;
 using Android.Widget;
 
 namespace XamarinDemo
@@ -10,7 +10,6 @@ namespace XamarinDemo
     [Activity(Label = "XamarinDemo", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
-        private readonly object buttonLockObject = new object();
         private readonly object personLockObject = new object();
         private Person person;
 
@@ -20,25 +19,15 @@ namespace XamarinDemo
 
             SetContentView(Resource.Layout.Main);
 
-            var button = FindViewById<Button>(Resource.Id.MyButton);
-            button.Click += StartDemo;
+            StartDemo();
         }
 
-        private async void StartDemo(object sender, EventArgs eventArgs)
+        private async void StartDemo()
         {
             var okCount = 0;
             var failCount = 0;
 
-            var button = FindViewById<Button>(Resource.Id.MyButton);
             var editText = FindViewById<EditText>(Resource.Id.outputEditText);
-
-            lock (buttonLockObject)
-            {
-                if (button.Enabled == false)
-                    return;
-
-                button.Enabled = false;
-            }
 
             while (true)
                 await Task.Run(() =>
@@ -65,7 +54,10 @@ namespace XamarinDemo
                                 Thread.MemoryBarrier();
 
                             if (!person.IsInitialized())
+                            {
                                 failCount++;
+                                Log.Error("m08pvv", $"Fails: {failCount}, ok: {okCount}");
+                            }
                             else
                                 okCount++;
 
@@ -78,6 +70,9 @@ namespace XamarinDemo
     public class Person
     {
         private const string JohnSmithName = "John Smith";
+        public string Name { get; }
+        public int Age { get; }
+        public int OneMoreInt { get; }
 
         // We can force inlining
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -85,14 +80,14 @@ namespace XamarinDemo
         {
             Name = JohnSmithName;
             Age = int.MaxValue;
+            OneMoreInt = int.MaxValue;
         }
-
-        public string Name { get; }
-        public int Age { get; }
 
         public bool IsInitialized()
         {
-            return (Name == JohnSmithName) && (Age == int.MaxValue);
+            return (Name == JohnSmithName)
+                   && (Age == int.MaxValue)
+                   && (OneMoreInt == int.MaxValue);
         }
     }
 }

@@ -19,10 +19,10 @@ namespace XamarinDemo
 
             SetContentView(Resource.Layout.Main);
 
-            StartDemo();
+            Task.Factory.StartNew(StartDemo, TaskCreationOptions.LongRunning);
         }
 
-        private async void StartDemo()
+        private void StartDemo()
         {
             var okCount = 0;
             var failCount = 0;
@@ -30,7 +30,10 @@ namespace XamarinDemo
             var editText = FindViewById<EditText>(Resource.Id.outputEditText);
 
             while (true)
-                await Task.Run(() =>
+            {
+                RunOnUiThread(() => editText.Text = $"Fails: {failCount}, ok: {okCount}");
+
+                for (int i = 0; i < 1024; i++)
                 {
                     person = null;
                     Parallel.Invoke(
@@ -59,11 +62,13 @@ namespace XamarinDemo
                                 Log.Error("m08pvv", $"Fails: {failCount}, ok: {okCount}");
                             }
                             else
+                            {
                                 okCount++;
-
-                            RunOnUiThread(() => editText.Text = $"Fails: {failCount}, ok: {okCount}");
-                        });
-                });
+                            }
+                        }
+                    );
+                }
+            }
         }
     }
 

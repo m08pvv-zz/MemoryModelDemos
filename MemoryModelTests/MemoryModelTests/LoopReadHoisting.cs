@@ -15,6 +15,7 @@ namespace MemoryModelTests
 
             while (flag)
             {
+                // Do nothing
             }
         }
     }

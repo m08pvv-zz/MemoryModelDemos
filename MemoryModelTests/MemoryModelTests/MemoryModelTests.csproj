@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="BuggyConcurrentDictionary.cs" />
     <Compile Include="CollideDictionary.cs" />
+    <Compile Include="CopyPropagation.cs" />
     <Compile Include="LoopReadHoisting.cs" />
     <Compile Include="ReadElimination.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -8,7 +8,7 @@ namespace MemoryModelTests
     public class CopyPropagation
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void ChechStrings(Container a)
+        public void CheckStrings(Container a)
         {
             if (a.S.Length != 2 || a.S2.Length != 2)
                 throw new Exception($"Copy was not propagated properly! S = {a.S}, S2 = {a.S2}");
@@ -30,7 +30,7 @@ namespace MemoryModelTests
                 {
                     c.S = "OK";
                     c.S2 = c.S;
-                    ChechStrings(c);
+                    CheckStrings(c);
                 });
                 var t2 = Task.Run(() => DoEvil(c));
 

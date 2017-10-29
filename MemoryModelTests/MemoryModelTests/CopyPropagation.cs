@@ -10,8 +10,8 @@ namespace MemoryModelTests
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void CheckStrings(Container a)
         {
-            if (a.S.Length != 2 || a.S2.Length != 2)
-                throw new Exception($"Copy was not propagated properly! S = {a.S}, S2 = {a.S2}");
+            if (a.S.Length == 0 || a.S2.Length == 0)
+                throw new InvalidOperationException();
         }
 
         public void DoEvil(Container a)
@@ -23,12 +23,12 @@ namespace MemoryModelTests
         public void CopyPropagationTest()
         {
             var c = new Container();
-
+            var date = DateTime.UtcNow.ToString("O");
             for (var i = 0; i < 1 << 20; i++)
             {
                 var t1 = Task.Run(() =>
                 {
-                    c.S = "OK";
+                    c.S = date;
                     c.S2 = c.S;
                     CheckStrings(c);
                 });
